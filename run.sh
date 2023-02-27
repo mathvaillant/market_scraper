@@ -3,6 +3,8 @@
 EMAIL_FILE="email.txt"
 EMAILER="emailsender"
 
+PYTHON="/usr/local/bin/python"
+
 SCRAPERS_DIR="scrapers"
 SCRAPERS=("aldi" "pingodoce")
 
@@ -19,7 +21,7 @@ cd $SCRAPERS_DIR
 echo "Running scrapers... ⏳"
 for SCRAPER in "${SCRAPERS[@]}"; 
   do
-    python "$SCRAPER.py"
+    $PYTHON "$SCRAPER.py"
 done
 echo "Scrapers successfully ran ✅"
 
@@ -30,5 +32,7 @@ mv $EMAIL_FILE ../
 cd ..
 
 # Send the email
-python "$EMAILER.py"
+$PYTHON "$EMAILER.py"
+
+
 

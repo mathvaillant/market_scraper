@@ -2,6 +2,9 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Email:
   def __init__(self, **kwargs):
@@ -10,6 +13,7 @@ class Email:
     self.receiver = kwargs.pop('receiver', None)
     self.email_content = kwargs.pop('email_content', None)
     self.subject = kwargs.pop('subject', None) 
+    self.smtp_lib_config = kwargs.pop('smtp_lib_config', None)
 
   def build_email(self):
     email = MIMEMultipart()
@@ -22,7 +26,8 @@ class Email:
     self.email_content = email.as_string()
 
   def send_email(self):
-    connection = smtplib.SMTP(os.environ.get("SMTP_LIB_CONFIG", ""))
+    
+    connection = smtplib.SMTP(self.smtp_lib_config)
     connection.starttls()
 
     connection.login(
@@ -44,12 +49,18 @@ if __name__ == '__main__':
     with open("email.txt", "r") as file:
       email_content = file.read()
 
+      sender = os.environ.get("MAIL_SENDER", "")
+      sender_password = os.environ.get("MAIL_SENDER_PASSWORD", "")
+      receiver = os.environ.get("MAIL_RECEIVER", "")
+      smtp_lib_config = os.environ.get("SMTP_LIB_CONFIG", "")
+
       email = Email(
-        sender=os.environ.get("MAIL_SENDER", ""),
-        sender_password=os.environ.get("MAIL_SENDER_PASSWORD", ""),
-        receiver=os.environ.get("MAIL_RECEIVER", ""),
-        subject="DAILY SUPERMARKET LIST 🥦🍌🍚",
-        email_content=email_content
+        sender=sender,
+        sender_password=sender_password,
+        receiver=receiver,
+        email_content=email_content,
+        smtp_lib_config=smtp_lib_config,
+        subject="DAILY SUPERMARKET LIST 🥦🍌🍚"
       )
 
       email.build_email()
