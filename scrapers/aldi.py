@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from basescraper import BaseScraper
+from utils.parsing import cleanup_sring
 
 class AldiScraper(BaseScraper):
   def __init__(self):
@@ -14,8 +15,10 @@ class AldiScraper(BaseScraper):
     raw_name = soup.find("div", {"class": "mod-article-intro__header-headline"}).find("h1").get_text().strip()
     raw_price = soup.find("span", {"class": "price__wrapper"}).get_text().strip()
 
-    name = raw_name.replace("\n", "").replace("\t", "")
-    price = raw_price.replace("\n", "").replace("\t", "").replace("*", "")
+    unwanted_strings = ["\n", "\t", "*"]
+
+    name = cleanup_sring(raw_content=raw_name, list=unwanted_strings)
+    price = cleanup_sring(raw_content=raw_price, list=unwanted_strings)
 
     return {"name": name, "price": price}
 

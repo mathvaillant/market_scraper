@@ -32,7 +32,7 @@ mv $EMAIL_FILE ../
 cd ..
 
 # Send the email
-$PYTHON "$EMAILER.py"
+# $PYTHON "$EMAILER.py"
 
 
 
