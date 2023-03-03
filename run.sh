@@ -6,7 +6,7 @@ EMAILER="emailsender"
 PYTHON="/usr/local/bin/python"
 
 SCRAPERS_DIR="scrapers"
-SCRAPERS=("aldi" "pingodoce")
+SCRAPERS=("aldi" "pingodoce" "continente" "lidl")
 
 # Check if there is a previous email file
 if [ -f "$EMAIL_FILE" ]; 
@@ -32,7 +32,7 @@ mv $EMAIL_FILE ../
 cd ..
 
 # Send the email
-# $PYTHON "$EMAILER.py"
+$PYTHON "$EMAILER.py"
 
 
 
